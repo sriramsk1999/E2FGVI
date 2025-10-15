@@ -102,6 +102,9 @@ def process_single_chunk(chunk_imgs, chunk_masks, model, size):
             i for i in range(max(0, f - neighbor_stride),
                              min(video_length, f + neighbor_stride + 1))
         ]
+
+        if len(neighbor_ids) < 2: print("CHANGE CHUNK SIZE") # dumb hack to remind me to handle this edge case better
+
         ref_ids = get_ref_index(f, neighbor_ids, video_length)
         selected_imgs = chunk_imgs[:1, neighbor_ids + ref_ids, :, :, :]
         selected_masks = chunk_masks[:1, neighbor_ids + ref_ids, :, :, :]
