@@ -21,6 +21,7 @@ parser.add_argument("--step", type=int, default=10)
 parser.add_argument("--num_ref", type=int, default=-1)
 parser.add_argument("--neighbor_stride", type=int, default=5)
 parser.add_argument("--savefps", type=int, default=24)
+parser.add_argument("--cam_name", type=str, default="cam_azure_kinect")
 
 # args for e2fgvi_hq (which can handle videos with arbitrary resolution)
 parser.add_argument("--set_size", action='store_true', default=False)
@@ -168,13 +169,13 @@ def main_worker():
         f'Loading videos and masks from: {args.lerobot_dir} | INPUT MP4 format: {args.use_mp4}'
     )
 
-    videos = sorted(os.listdir(f"{lerobot_dir}/observation.images.cam_azure_kinect.color/"))
-    output_dir = f"{lerobot_dir}/e2fgvi_vid/"
+    videos = sorted(os.listdir(f"{lerobot_dir}/observation.images.{args.cam_name}.color/"))
+    output_dir = f"{lerobot_dir}/e2fgvi_vid/{args.cam_name}"
     os.makedirs(output_dir, exist_ok=True)
 
     for video_fname in tqdm(videos):
-        vid_path = f"{lerobot_dir}/observation.images.cam_azure_kinect.color/{video_fname}"
-        mask_path = f"{lerobot_dir}/gsam2_masks/{video_fname}_masks"
+        vid_path = f"{lerobot_dir}/observation.images.{args.cam_name}.color/{video_fname}"
+        mask_path = f"{lerobot_dir}/gsam2_masks/{args.cam_name}/{video_fname}_masks"
         save_path = os.path.join(output_dir, video_fname)
         if not os.path.exists(mask_path): continue
         if os.path.exists(save_path): continue
