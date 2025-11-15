@@ -10,6 +10,7 @@ from matplotlib import animation
 import torch
 from tqdm import tqdm
 import imageio.v3 as iio
+import random
 
 from core.utils import to_tensors
 
@@ -161,7 +162,7 @@ def main_worker():
     print(f'Loading model from: {args.ckpt}')
     model.eval()
 
-    chunk_size = 100
+    chunk_size = random.randint(98,103) # an incredibly ugly hack to avoid an edge case
 
     # prepare datset
     args.use_mp4 = True
